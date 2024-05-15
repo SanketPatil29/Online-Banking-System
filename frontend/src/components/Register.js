@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import UserService from '../Services/UserService';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     type:'',
     username: '',
@@ -30,6 +31,7 @@ export default function Register() {
       const response = await UserService.AccountRegistration(formData);
       if(response){
         alert(`Registered successfully!  Username and password sent to Email: ${email} and Mobile: ${mobile}`);
+        navigate("/login")
       }
       else{
         alert(`Unable to register`);

@@ -11,10 +11,12 @@ import AccountDetails from "./AccountDetails";
 import Payment from "./Payment";
 import Profile from "./Profile";
 import Login from "../../Login";
+import { useAuth } from "../../../AuthContext";
 
 const CustomerHomePage = () => {
   const [currentPage, setCurrentPage] = useState("accounts");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { logout } = useAuth(); // Destructure the login function from AuthContext
   const navigate = useNavigate()
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -34,10 +36,10 @@ const CustomerHomePage = () => {
     }
   };
   const handleLogout = () =>{
-    localStorage.removeItem('customer_id');
+    logout();
     navigate("/login")
   }
-  
+
   return (
     <div className="font-[sans-serif]">
       <div className="mt-15">

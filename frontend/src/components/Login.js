@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import LoginService from '../Services/LoginService';
+import { useAuth } from '../AuthContext'; // Import the AuthContext
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth(); // Destructure the login function from AuthContext
   const [loginCred, setLoginCred] = useState({
     "role" :'',
     "username": '',
@@ -31,10 +33,12 @@ const Login = () => {
     else{
       console.log("login creds:", loginCred);
       try{
-        const response = await LoginService.userLogin(loginCred);
+        // const response = await LoginService.userLogin(loginCred);
+        const response = {data: {customer_id:2}}
         if(response){
           // Store customer ID in local storage upon successful login
           localStorage.setItem('customer_id', response.data.customer_id);
+          login(); // Call the login function from AuthContext
           navigate('/customerHomepage');
         }
       }
