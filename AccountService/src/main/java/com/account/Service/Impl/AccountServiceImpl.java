@@ -28,6 +28,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountServiceImpl(AccountRepository accountRepository, TransactionRepository transactionRepository) {
         this.accountRepository = accountRepository;
         this.transactionRepository = transactionRepository;
+
     }
 
     @Override
@@ -48,6 +49,15 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findById(accountId).orElseThrow(()->new RuntimeException("Customer Not Found"));
 
     }
+    @Override
+    public List<Account> getAccountsByCustomerId(Long customerId) {
+//        return accountRepository.findByCustomerId(customerId);
+        return accountRepository.findByCustomer_id(customerId);
+    }
+
+
+
+
 
     @Override
     public void transferFunds(TransferRequestDto transferRequestDto) {

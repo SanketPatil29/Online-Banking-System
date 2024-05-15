@@ -12,7 +12,7 @@ public class UserInfoDto {
 
     private String firstname;
     private String lastname;
-
+    private String type;
     private String gender;
 
     private Date dob;

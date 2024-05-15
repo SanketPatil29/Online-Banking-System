@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -26,7 +28,7 @@ public class Customer {
     private Date dob;
 
     private String address;
-
+    private String type;
     private Long mobile;
 
     private String email;
@@ -35,5 +37,6 @@ public class Customer {
     @JoinColumn(name = "username")
     private User user;
 
+    transient private List<Account> accounts;
 
 }

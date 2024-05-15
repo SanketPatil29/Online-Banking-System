@@ -9,7 +9,7 @@ public interface CustomerService {
 
     Customer add(UserInfoDto userInfoDto);
 
-    List<Customer> get();
+    List<Customer> getAllCustomers();
 
-    Customer get(Long id);
+    Customer getCustomerById(Long id);
 }

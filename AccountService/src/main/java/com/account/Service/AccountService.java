@@ -10,5 +10,7 @@
         Account createAccount(AccountDto accountDto);
         List<Account> getAllAccounts();
         Account getAccountById(Long accountId);
+        List<Account> getAccountsByCustomerId(Long customerId); // New method
+
         void transferFunds(TransferRequestDto transferRequestDto);
     }

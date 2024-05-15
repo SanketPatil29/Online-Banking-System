@@ -11,6 +11,7 @@ public class CustomerMapper {
         customer.setFirstname(userInfoDto.getFirstname());
         customer.setLastname(userInfoDto.getLastname());
         customer.setGender(userInfoDto.getGender());
+        customer.setType(userInfoDto.getType());
         customer.setDob(userInfoDto.getDob());
         customer.setAddress(userInfoDto.getAddress());
         customer.setMobile(userInfoDto.getMobile());
