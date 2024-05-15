@@ -1,7 +1,49 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import LoginService from '../Services/LoginService';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [loginCred, setLoginCred] = useState({
+    "role" :'',
+    "username": '',
+    "password":''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    
+    // If the clicked element is a button (role selection), update the role in the state
+    if (e.target.tagName === 'BUTTON') {
+      e.preventDefault(); // Prevent default button behavior
+      setLoginCred({ ...loginCred, role: value });
+
+    } else {
+      // If it's not a button, update the input field values
+      setLoginCred({ ...loginCred, [name]: value });
+    }
+  };
+
+  const handleLogin = async () => {
+    if(loginCred.role === '' || loginCred.username==='' || loginCred.password ===''){
+      alert("Please fill all the fields!");
+    }
+    else{
+      console.log("login creds:", loginCred);
+      try{
+        const response = await LoginService.userLogin(loginCred);
+        if(response){
+          // Store customer ID in local storage upon successful login
+          localStorage.setItem('customer_id', response.data.customer_id);
+          navigate('/customerHomepage');
+        }
+      }
+      catch(error){
+        alert(error.response.data)
+      }
+    }
+  };
+
   return (
     <section className="h-screen flex items-center justify-center bg-gray-100">
       <div className="flex flex-wrap items-center justify-center lg:justify-between w-full max-w-6xl p-6">
@@ -21,31 +63,61 @@ const Login = () => {
           <form className="space-y-4">
             {/* Bank name title */}
             <div className="text-center lg:text-left mb-6">
-              <h1 className="text-2xl font-bold text-gray-800">Namma Bank</h1>
+              <h1 className="text-2xl font-bold text-gray-800">Banking App</h1>
             </div>
 
             {/* Login */}
             <div className="flex justify-start">
-              <span className="text-gray-700 text-lg font-semibold">Sign in</span>
+              <span className="text-gray-700 text-lg font-semibold">Sign in as</span>
+            </div>
+
+            {/* Role selection tabs */}
+            <div className="flex justify-center gap-2 mb-4">
+            <button
+              value='ROLE_CUSTOMER'
+              className={`py-2 px-4 rounded focus:outline-none ${loginCred.role === 'ROLE_CUSTOMER' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+              onClick={handleChange}
+            >
+              Customer
+            </button>
+            <button
+              value='ROLE_EMPLOYEE'
+              className={`py-2 px-4 rounded focus:outline-none ${loginCred.role === 'ROLE_EMPLOYEE' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+              onClick={handleChange}
+            >
+              Employee
+            </button>
+            <button
+              value='ROLE_ADMIN'
+              className={`py-2 px-4 rounded focus:outline-none ${loginCred.role === 'ROLE_ADMIN' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+              onClick={handleChange}
+            >
+              Admin
+            </button>
+
             </div>
 
             {/* Email input */}
             <div className="relative">
               <input
+                onChange={handleChange}
                 type="text"
                 className="block w-full px-4 py-3 rounded border border-gray-300 focus:outline-none focus:border-primary"
                 id="email"
                 placeholder="Email"
+                name="username"
               />
             </div>
 
             {/* Password input */}
             <div className="relative">
               <input
+                onChange={handleChange}
                 type="password"
                 className="block w-full px-4 py-3 rounded border border-gray-300 focus:outline-none focus:border-primary"
                 id="password"
                 placeholder="Password"
+                name="password"
               />
             </div>
 
@@ -72,6 +144,7 @@ const Login = () => {
             {/* Login button */}
             <div className='flex justify-center'>
               <button
+                onClick={handleLogin}
                 type="button"
                 className="w-32 py-3 text-sm font-semibold bg-blue-500 hover:bg-blue-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
               >
@@ -83,12 +156,6 @@ const Login = () => {
             <div className="text-center">
               <p className="text-sm">
                 Don't have an account?{' '}
-                {/* <a
-                  href="#!"
-                  className="text-blue-500 hover:text-blue-700"
-                >
-                  Register
-                </a> */}
                 <Link className="text-blue-500 hover:text-blue-700" to='/register'>Register</Link>
               </p>
             </div>
