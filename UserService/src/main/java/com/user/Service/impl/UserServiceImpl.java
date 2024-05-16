@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
     public boolean authenticateUser(String username, String password, String role) {
         User user = userRepository.findByUsername(username);
         if (user != null && user.getPassword().equals(password) && user.getRole().equals(role)) {
+            System.out.println("");
             return true; // Authentication successful
         }
         return false; // Authentication failed

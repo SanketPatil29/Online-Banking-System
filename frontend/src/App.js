@@ -1,20 +1,20 @@
 // App.js
-import './style.css';
-import Login from './components/Login'
+import "./style.css";
+import Login from "./components/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Register from './components/Register';
-import CustomerHomePage from './components/Actors/Customer/CustomerHomePage';
-import PrivateRoute from './PrivateRoute';
-import { AuthProvider } from './AuthContext';
+import Register from "./components/Register";
+import CustomerHomePage from "./components/Actors/Customer/CustomerHomePage";
+import PrivateRoute from "./PrivateRoute";
+import { AuthProvider } from "./AuthContext";
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path='*' element={<Login />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='register' element={<Register />} />
+          <Route path="*" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="register" element={<Register />} />
           {/* <Route
               path="register"
               element={
@@ -24,14 +24,14 @@ function App() {
               }
             />                  
           */}
-            <Route
-              path="customerHomepage"
-              element={
-                <PrivateRoute type="customerHomepage">
-                  <CustomerHomePage />
-                </PrivateRoute>
-              }
-            />       
+          <Route
+            path="customerHomepage"
+            element={
+              <PrivateRoute type="customerHomepage">
+                <CustomerHomePage />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

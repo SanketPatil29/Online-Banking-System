@@ -1,25 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import LoginService from '../Services/LoginService';
-import { useAuth } from '../AuthContext'; // Import the AuthContext
+import LoginService from "../Services/LoginService";
+import { useAuth } from "../AuthContext"; // Import the AuthContext
 
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth(); // Destructure the login function from AuthContext
   const [loginCred, setLoginCred] = useState({
-    "role" :'',
-    "username": '',
-    "password":''
+    role: "",
+    username: "",
+    password: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     // If the clicked element is a button (role selection), update the role in the state
-    if (e.target.tagName === 'BUTTON') {
+    if (e.target.tagName === "BUTTON") {
       e.preventDefault(); // Prevent default button behavior
       setLoginCred({ ...loginCred, role: value });
-
     } else {
       // If it's not a button, update the input field values
       setLoginCred({ ...loginCred, [name]: value });
@@ -27,23 +26,26 @@ const Login = () => {
   };
 
   const handleLogin = async () => {
-    if(loginCred.role === '' || loginCred.username==='' || loginCred.password ===''){
+    if (
+      loginCred.role === "" ||
+      loginCred.username === "" ||
+      loginCred.password === ""
+    ) {
       alert("Please fill all the fields!");
-    }
-    else{
+    } else {
       console.log("login creds:", loginCred);
-      try{
-        // const response = await LoginService.userLogin(loginCred);
-        const response = {data: {customer_id:2}}
-        if(response){
+      try {
+        const response = await LoginService.userLogin(loginCred);
+        // const response = {data: {customer_id:2}}
+        if (response) {
           // Store customer ID in local storage upon successful login
-          localStorage.setItem('customer_id', response.data.customer_id);
-          login(); // Call the login function from AuthContext
-          navigate('/customerHomepage');
+          console.log("Response Data:", response);
+          // localStorage.setItem("customer_id", response.data.customer_id);
+          // login(); // Call the login function from AuthContext
+          navigate("/customerHomepage");
         }
-      }
-      catch(error){
-        alert(error.response.data)
+      } catch (error) {
+        alert(error.response.data);
       }
     }
   };
@@ -51,7 +53,6 @@ const Login = () => {
   return (
     <section className="h-screen flex items-center justify-center bg-gray-100">
       <div className="flex flex-wrap items-center justify-center lg:justify-between w-full max-w-6xl p-6">
-        
         {/* Left column container with background */}
         <div className="w-full lg:w-6/12 xl:w-6/12 flex justify-center mb-6 md:mb-0">
           <img
@@ -60,7 +61,6 @@ const Login = () => {
             alt="Sample image"
           />
         </div>
-
 
         {/* Right column container */}
         <div className="w-full lg:w-5/12 xl:w-5/12 bg-white rounded-lg p-8 shadow-md">
@@ -72,33 +72,46 @@ const Login = () => {
 
             {/* Login */}
             <div className="flex justify-start">
-              <span className="text-gray-700 text-lg font-semibold">Sign in as</span>
+              <span className="text-gray-700 text-lg font-semibold">
+                Sign in as
+              </span>
             </div>
 
             {/* Role selection tabs */}
             <div className="flex justify-center gap-2 mb-4">
-            <button
-              value='ROLE_CUSTOMER'
-              className={`py-2 px-4 rounded focus:outline-none ${loginCred.role === 'ROLE_CUSTOMER' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-              onClick={handleChange}
-            >
-              Customer
-            </button>
-            <button
-              value='ROLE_EMPLOYEE'
-              className={`py-2 px-4 rounded focus:outline-none ${loginCred.role === 'ROLE_EMPLOYEE' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-              onClick={handleChange}
-            >
-              Employee
-            </button>
-            <button
-              value='ROLE_ADMIN'
-              className={`py-2 px-4 rounded focus:outline-none ${loginCred.role === 'ROLE_ADMIN' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-              onClick={handleChange}
-            >
-              Admin
-            </button>
-
+              <button
+                value="ROLE_CUSTOMER"
+                className={`py-2 px-4 rounded focus:outline-none ${
+                  loginCred.role === "ROLE_CUSTOMER"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-gray-700"
+                }`}
+                onClick={handleChange}
+              >
+                Customer
+              </button>
+              <button
+                value="ROLE_EMPLOYEE"
+                className={`py-2 px-4 rounded focus:outline-none ${
+                  loginCred.role === "ROLE_EMPLOYEE"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-gray-700"
+                }`}
+                onClick={handleChange}
+              >
+                Employee
+              </button>
+              <button
+                value="ROLE_ADMIN"
+                className={`py-2 px-4 rounded focus:outline-none ${
+                  loginCred.role === "ROLE_ADMIN"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-gray-700"
+                }`}
+                onClick={handleChange}
+              >
+                Admin
+              </button>
             </div>
 
             {/* Email input */}
@@ -140,13 +153,16 @@ const Login = () => {
                   Remember me
                 </label>
               </div>
-              <a href="#!" className="text-sm text-blue-500 hover:text-blue-700">
+              <a
+                href="#!"
+                className="text-sm text-blue-500 hover:text-blue-700"
+              >
                 Forgot password?
               </a>
             </div>
 
             {/* Login button */}
-            <div className='flex justify-center'>
+            <div className="flex justify-center">
               <button
                 onClick={handleLogin}
                 type="button"
@@ -159,8 +175,13 @@ const Login = () => {
             {/* Register link */}
             <div className="text-center">
               <p className="text-sm">
-                Don't have an account?{' '}
-                <Link className="text-blue-500 hover:text-blue-700" to='/register'>Register</Link>
+                Don't have an account?{" "}
+                <Link
+                  className="text-blue-500 hover:text-blue-700"
+                  to="/register"
+                >
+                  Register
+                </Link>
               </p>
             </div>
           </form>
