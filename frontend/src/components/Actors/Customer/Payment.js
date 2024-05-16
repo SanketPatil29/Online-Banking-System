@@ -1,60 +1,75 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
+import { useAccountDataContext } from "../../../context/AccountDataContext";
+import PaymentService from "../../../Services/PaymentService";
 
-const Payment = ({customerData}) => {
+const Payment = () => {
     // Sample account numbers
-    const [accountNumbers, setAccountNumbers] = useState([]);
-    const [beneficiaryAccounts, setBeneficiaryAccounts] = useState([]);
+    const { accObjs } = useAccountDataContext();
     const [selectedAccount, setSelectedAccount] = useState('');
     const [beneficiaryDetails, setBeneficiaryDetails] = useState({
         beneficiaryAccount :'',
         amount : '',
-        description:''
+        description:'',
+        beneficiaryName:''
     });
-    const [transactionDetails, setTransactionDetails] = useState([]);
-    const [accountDetails, setAccountDetails] = useState({"account_id": '',
-            "customer_id": '',
-            "type": "",
+    const [accountDetails, setAccountDetails] = useState({
+            "account_id": null,
             "status": "",
-            "dateOpened": "",
-            "balance": '',
-        });
+            "balance": null,
+    });
+    const [loading, setLoading] = useState(false); // State variable to track loading state
 
     useEffect(() => {
-        for (let i = 0; i < customerData?.length; i++) {
-            setAccountNumbers(...accountNumbers, customerData[i]?.account_id);
-        }
-
-    }, [])
-
-    useEffect(() => {
-        for (let i = 0; i < customerData?.length; i++) {
-            if(customerData[i].account_id === selectedAccount){
+        if (selectedAccount && accObjs?.length > 0) {
+            const selectedAccountData = accObjs.find(account => account.account_id === selectedAccount);
+            if (selectedAccountData) {
                 setAccountDetails({
-                    account_id: customerData[i].account_id,
-                    customer_id: customerData[i].customer_id,
-                    type: customerData[i].type,
-                    status: customerData[i].status,
-                    dateOpened: customerData[i].dateOpened,
-                    balance: customerData[i].balance,
+                    account_id: selectedAccountData.account_id,
+                    status: selectedAccountData.status,
+                    balance: selectedAccountData.balance,
                 });
-                setTransactionDetails(customerData[i].transactions);
-                break;
             }
         }
-    }, [selectedAccount])
+    }, [selectedAccount]);
 
     // Function to handle select change
     const handleSelectChange = (e) => {
-        setSelectedAccount(e.target.value);
+        setSelectedAccount(parseInt(e.target.value, 10)); // Assuming the value is a string and needs to be converted to an integer
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setBeneficiaryDetails({ ...beneficiaryDetails, [name]: value });
-      };
+    };
 
+    const handleSubmit = async() => {
+        if(!beneficiaryDetails.amount 
+            || !beneficiaryDetails.beneficiaryAccount 
+            || !accountDetails.account_id
+            || !beneficiaryDetails.description
+            || !beneficiaryDetails.beneficiaryName
+        ){
+            alert("Please fill all the fields!")
+            return
+        }
+        const paymentDetails = {
+            "senderAccountId": accountDetails.account_id,
+            "recipientAccountId": beneficiaryDetails.beneficiaryAccount,
+            "amount": beneficiaryDetails.amount
+        }
+        setLoading(true)
+        try{   
+            const response = await PaymentService.TransferAmount(paymentDetails)
+            setLoading(false)
+            alert(response.data)
+        }
+        catch(error){
+            alert(error.response.data)
+        }
+    }
     return(
         <div>
+            {/* {loading && <div className="loading-spinner">Loading...</div>} */}
             <div className="bg-white shadow-md rounded-lg px-6 py-4 mb-4">
                 <h3 className='text-center text-3xl font-semibold mb-4'>Money Transfer</h3>
                 <div className="mb-4">
@@ -67,9 +82,9 @@ const Payment = ({customerData}) => {
                         value={selectedAccount}
                         onChange={handleSelectChange}
                     >
-                        <option value={accountNumbers[0]}>Select an account</option>
-                        {accountNumbers?.map((accountNumber, index) => (
-                            <option key={index} value={accountNumber}>{accountNumber}</option>
+                        <option value={null}>Select an account</option>
+                        {accObjs?.map((accountNumber, index) => (
+                            <option key={index} value={accountNumber.account_id}>{accountNumber.account_id}</option>
                         ))}
                     </select>
                 </div>
@@ -86,7 +101,7 @@ const Payment = ({customerData}) => {
                     <input
                         onChange={handleChange}
                         type="text"
-                        className="block w-full px-4 py-3 rounded border h-12 border-gray-300 focus:outline-none focus:border-primary"
+                        className="block w-full px-4 py-3 rounded border h-10 border-gray-300 focus:outline-none focus:border-primary"
                         id="beneficiaryAccount"
                         placeholder="Beneficiary Account"
                         name="beneficiaryAccount"
@@ -95,7 +110,7 @@ const Payment = ({customerData}) => {
                      <input
                         onChange={handleChange}
                         type="text"
-                        className="block w-1/2 px-4 py-3 rounded border h-12 border-gray-300 focus:outline-none focus:border-primary"
+                        className="block w-1/2 px-4 py-3 rounded border h-10 border-gray-300 focus:outline-none focus:border-primary"
                         id="beneficiaryName"
                         placeholder="Enter Name"
                         name="beneficiaryName"
@@ -117,7 +132,7 @@ const Payment = ({customerData}) => {
                     <input
                         onChange={handleChange}
                         type="text"
-                        className="block w-1/3 h-20 px-4 py-3 rounded border border-gray-300 focus:outline-none focus:border-primary"
+                        className="block w-1/3 h-15 px-4 py-3 rounded border border-gray-300 focus:outline-none focus:border-primary"
                         id="description"
                         placeholder="Description"
                         name="description"
@@ -125,7 +140,7 @@ const Payment = ({customerData}) => {
                 </div>
                 <div className='flex justify-center'>
                     <button
-                        onClick={''}
+                        onClick={handleSubmit}
                         type="button"
                         className="w-32 py-3 text-md font-semibold bg-blue-500 hover:bg-blue-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                     >
@@ -134,7 +149,6 @@ const Payment = ({customerData}) => {
                     </div>
                 </div>
         </div>
-        
     )
 }
 export default Payment

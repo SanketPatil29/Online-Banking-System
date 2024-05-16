@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import LoginService from '../Services/LoginService';
-import { useAuth } from '../AuthContext'; // Import the AuthContext
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth(); // Destructure the login function from AuthContext
   const [loginCred, setLoginCred] = useState({
     "role" :'',
     "username": '',
@@ -33,13 +31,12 @@ const Login = () => {
     else{
       console.log("login creds:", loginCred);
       try{
-        // const response = await LoginService.userLogin(loginCred);
-        const response = {data: {customer_id:2}}
+        const response = await LoginService.userLogin(loginCred);
+        console.log('resp', response)
         if(response){
           // Store customer ID in local storage upon successful login
-          localStorage.setItem('customer_id', response.data.customer_id);
-          login(); // Call the login function from AuthContext
-          navigate('/customerHomepage');
+          localStorage.setItem('customer_id', response.data);
+          navigate("/customerHomepage", { state: { customer_id:  response.data } });
         }
       }
       catch(error){
@@ -72,7 +69,7 @@ const Login = () => {
 
             {/* Login */}
             <div className="flex justify-start">
-              <span className="text-gray-700 text-lg font-semibold">Sign in as</span>
+              <span className="text-gray-700 text-lg font-semibold">Sign In as</span>
             </div>
 
             {/* Role selection tabs */}
@@ -159,7 +156,7 @@ const Login = () => {
             {/* Register link */}
             <div className="text-center">
               <p className="text-sm">
-                Don't have an account?{' '}
+                Don't have a bank account?{' '}
                 <Link className="text-blue-500 hover:text-blue-700" to='/register'>Register</Link>
               </p>
             </div>

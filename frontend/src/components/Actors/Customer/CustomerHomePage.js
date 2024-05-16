@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   UserIcon,
   CreditCardIcon,
@@ -10,23 +10,33 @@ import {
 import AccountDetails from "./AccountDetails";
 import Payment from "./Payment";
 import Profile from "./Profile";
-import Login from "../../Login";
-import { useAuth } from "../../../AuthContext";
+import UserService from "../../../Services/UserService";
 
 const CustomerHomePage = () => {
+  const location = useLocation();
+  const {customer_id} = location?.state
+  console.log("custID", customer_id)
+
   const [currentPage, setCurrentPage] = useState("accounts");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const { logout } = useAuth(); // Destructure the login function from AuthContext
   const navigate = useNavigate()
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  useEffect(() =>{
+    if(!localStorage.getItem("customer_id")){
+      alert("login Required")
+      navigate("/login")
+    }
+  }, [])
+
   const renderPage = () => {
     switch (currentPage) {
       case "accounts":
         return <AccountDetails />;
       case "payments":
-        return <Payment />;
+        return <Payment/>;
         case "profile":
           return <Profile />;
         // case "logout":
@@ -36,7 +46,7 @@ const CustomerHomePage = () => {
     }
   };
   const handleLogout = () =>{
-    logout();
+    localStorage.removeItem('customer_id');
     navigate("/login")
   }
 
@@ -171,7 +181,7 @@ const CustomerHomePage = () => {
                   <button
                     onClick={handleLogout}
                     className={`flex items-center p-2 rounded-lg group no-underline ${
-                      currentPage === "profile"
+                      currentPage === "logout"
                         ? "text-white bg-[#6467c0]"
                         : "text-gray-900"
                     }`}

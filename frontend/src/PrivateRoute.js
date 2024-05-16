@@ -1,12 +1,10 @@
 // PrivateRoute.js
 import React from 'react';
-import { Route,Navigate,  useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import {Navigate} from 'react-router-dom';
 
 const PrivateRoute = ({ children, type }) => {
   // const { isAuthenticated } = useAuth();
   const cust_id = localStorage.getItem("customer_id");
-  const navigate = useNavigate();
 
   if (!cust_id){
     alert("Login Required!");

@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import UserService from "../../../Services/UserService";
 
-const Profile = ({customerData}) => {
+const Profile = () => {
+  const [customerData , setCustomerData] = useState({})
   const [user, setUser] = useState({
     "customer_id": '',
     "firstname": "",
@@ -13,22 +15,35 @@ const Profile = ({customerData}) => {
     "mobile": '',
     "email": "",
   });
+  const customer_id = localStorage.getItem("customer_id")
+
+  const fetchPorfileData = async () => {
+    try{
+          const response = await UserService.CustomerDetails(customer_id)
+          setCustomerData(response.data)
+          console.log("customer Data (Profile)", response.data)
+      }
+      catch(error){
+          console.log("Error: ", error)
+      }
+};
 
   useEffect(() => {
-    const fetchPorfileData = async () => {
-        setUser({
-            "customer_id": customerData?.customer_id,
-            "firstname": customerData?.firstname,
-            "lastname": customerData?.lastname,
-            "gender": customerData?.gender,
-            "dob": customerData?.dob,
-            "address": customerData?.address,
-            "mobile": customerData?.mobile,
-            "email": customerData?.email,
-          });
-    };
     fetchPorfileData();
   }, []);
+
+  useEffect(() =>{
+    setUser({
+      "customer_id": customerData?.customer_id,
+      "firstname": customerData?.firstname,
+      "lastname": customerData?.lastname,
+      "gender": customerData?.gender,
+      "dob": customerData?.dob,
+      "address": customerData?.address,
+      "mobile": customerData?.mobile,
+      "email": customerData?.email,
+    });
+  }, [customerData])
 
   return (
     <div>
@@ -82,43 +97,43 @@ const Profile = ({customerData}) => {
         <h2 className="text-center text-2xl font-semibold mt-3">
           {user?.firstname} {user?.lastname}
         </h2>
-        <div className="justify-center text-gray-600 mt-1 flex flex-row">
-          Customer ID :{" "}
-          <p className="font-semibold">{user?.customer_id}</p>
+        <div className="justify-center text-black-600 mt-1 flex flex-row">
+          Customer ID : {" "}
+          <p className="pl-2 font-semibold"> {user?.customer_id}</p>
         </div>
 
         {/* Other Profile Fields */}
-        <div className="mt-5 flex justify-center items-center">
+        <div className="mt-5 flex  justify-center items-center">
           <h3 className="text-xl font-semibold ">
             Details
           </h3>
         </div>
-        <div className="mt-3">
+        <div className="mt-3 ">
            <p>
             <span className="key">Gender :</span>{" "}
-            <span className="value">{user?.email}</span>
+            <span className="value">{user?.gender}</span>
           </p>
-          <p>
-            <span className="key">Date of Birth :</span>{" "}
-            <span className="value">{user?.email}</span>
+          <p className="mt-2">
+            <span className="key ">Date of Birth :</span>{" "}
+            <span className="value">{user?.dob}</span>
           </p>
-          <p>
+          <p className="mt-2">
             <span className="key">Address :</span>{" "}
-            <span className="value">{user?.email}</span>
+            <span className="value">{user?.address}</span>
           </p>
-          <p>
+          <p className="mt-2">
             <span className="key">Email :</span>{" "}
             <span className="value">{user?.email}</span>
           </p>
-          <p>
+          <p className="mt-2">
             <span className="key">Mobile :</span>{" "}
-            <span className="value">{user?.districtName}</span>
+            <span className="value">{user?.mobile}</span>
           </p>
           {/* Add more fields as needed */}
         </div>
 
         {/* Change Password Button */}
-        <Link
+        {/* <Link
           to={{
             pathname: "/change-password",
             state: { type: "change-password" }, // Pass the type as a prop
@@ -128,7 +143,7 @@ const Profile = ({customerData}) => {
           <button className="bg-[#6467c0] hover:bg-[#b4b5d1] text-white font-bold py-1 px-2 rounded">
             Change Password
           </button>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

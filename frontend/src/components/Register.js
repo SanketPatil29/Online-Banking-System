@@ -15,12 +15,7 @@ export default function Register() {
     dob: '',
     mobile: '',
     email: '',
-    // branchName: '',
-    // ifscCode: '',
     address: '',
-    // city: '',
-    // state: '',
-    // pincode: ''
   });
 
   const handleSubmit = async(e) => {
