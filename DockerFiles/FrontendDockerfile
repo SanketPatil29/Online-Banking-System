@@ -14,7 +14,7 @@ RUN npm install
 COPY frontend/public ./public
 COPY frontend/src ./src
 COPY frontend/tailwind.config.js ./
-COPY frontend/postcss.config.js ./  # Include this if you have a PostCSS configuration file
+
 
 # Build the React application
 RUN npm run build
