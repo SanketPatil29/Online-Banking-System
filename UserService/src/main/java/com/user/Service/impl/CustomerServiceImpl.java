@@ -11,6 +11,7 @@ import com.user.Service.CustomerService;
 import com.user.mapper.CustomerMapper;
 import com.user.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.gson.GsonProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,12 +50,16 @@ public Customer add(UserInfoDto userInfoDto) {
     Customer customer = CustomerMapper.mapToCustomer(userInfoDto);
     customer.setUser(savedUser);
     Customer savedCustomer = customerRepository.save(customer);
+    System.out.println("savedCustomer "+ savedCustomer);
 
     // Create an account for the newly added customer
     Account account = new Account();
     account.setCustomerId(savedCustomer.getCustomer_id());
     account.setType(savedCustomer.getType()); // Set default account type or adjust as needed
+
+    System.out.println(" before newAccount ");
     Account newAccount = accountClient.createAccount(account);
+    System.out.println("newAccount  "+newAccount);
 
     return savedCustomer;
 }

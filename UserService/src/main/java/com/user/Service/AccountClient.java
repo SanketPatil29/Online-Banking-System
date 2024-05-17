@@ -9,14 +9,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(url="http://localhost:8082",value="Account-Client")
+//@FeignClient(url="http://localhost:8082",value="Account-Client")
+@FeignClient(name="AccountService")
+
 public interface AccountClient {
     @GetMapping("api/accounts/customer/{customerId}")
     List<Account> getAccountsOfClient(@PathVariable Long customerId);
 
     @PostMapping("api/accounts")
     Account createAccount(@RequestBody Account account);
-
 
 
 }
