@@ -1,0 +1,3 @@
+[Hosts]
+localhost ansible_user=kb ansible_ssh_pass=kb
+# ansible_ssh_common_args = '-o StrictHostKeyChecking=no'

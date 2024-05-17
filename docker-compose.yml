@@ -1,0 +1,136 @@
+version: '3'
+
+services:
+  eurekaregistry:
+    image: ${DOCKER_NAMESPACE}/eurekaregistry
+    container_name: eurekaregistry
+    ports:
+      - "8761:8761"
+    networks:
+      - bank-network
+
+  apigateway:
+    image: ${DOCKER_NAMESPACE}/apigateway
+    container_name: apigateway
+    ports:
+      - "9093:9093"
+    networks:
+      - bank-network
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaregistry:8761/eureka/
+    depends_on:
+      - eurekaregistry
+
+  userservice:
+    image: ${DOCKER_NAMESPACE}/userservice
+    container_name: userservice
+    ports:
+      - "8081:8081"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaregistry:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://userservice_db/userservice?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    networks:
+      - bank-network
+    depends_on:
+      - eurekaregistry
+      - apigateway
+      - userservice_db
+    volumes:
+      - /home:/logs
+
+  accountservice:
+    image: ${DOCKER_NAMESPACE}/accountservice
+    container_name: accountservice
+    ports:
+      - "8082:8082"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaregistry:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://accountservice_db/accountservice?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    networks:
+      - bank-network
+    depends_on:
+      - eurekaregistry
+      - apigateway
+      - accountservice_db
+    volumes:
+      - /home:/logs
+      
+  notificationservice:
+    image: ${DOCKER_NAMESPACE}/notificationservice
+    container_name: notificationservice
+    ports:
+      - "8084:8084"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eurekaregistry:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://notificationservice_db/notificationservice?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    networks:
+      - bank-network
+    depends_on:
+      - eurekaregistry
+      - apigateway
+      - notificationservice_db
+    volumes:
+      - /home:/logs
+
+  userservice_db:
+    image: mysql:8
+    container_name: userservice_db
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=userservice
+    volumes:
+      - userservice_db:/var/lib/mysql
+    networks:
+      - bank-network
+
+  accountservice_db:
+    image: mysql:8
+    container_name: accountservice_db
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=accountservice
+    volumes:
+      - accountservice_db:/var/lib/mysql
+    networks:
+      - bank-network
+      
+  notificationservice_db:
+    image: mysql:8
+    container_name: notificationservice_db
+    ports:
+      - "3309:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=notificationservice
+    volumes:
+      - notificationservice_db:/var/lib/mysql
+    networks:
+      - bank-network
+
+  frontend:
+    image: ${DOCKER_NAMESPACE}/frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - bank-network
+
+networks:
+  bank-network:
+    driver: bridge
+
+volumes:
+  userservice_db:
+  accountservice_db:
+  notificationservice_db:
+
