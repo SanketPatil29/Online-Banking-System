@@ -18,7 +18,8 @@
 
     - name: Run docker compose up command
       docker_compose:
-        env_file: ./docker_namespace.env
         project_src: ./
         state: present
         pull: yes
+      environment:
+        DOCKER_NAMESPACE: kb111
