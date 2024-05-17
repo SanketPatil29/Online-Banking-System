@@ -94,7 +94,7 @@ pipeline {
         stage('Run Ansible Playbook') {
             steps {
                 echo 'Running Ansible Playbook'
-                sh 'export LC_ALL=en_IN.UTF-8;export LANG=en_US.UTF-8;ansible-playbook -i inventory_kuldip playbook.yml'
+                sh 'export LC_ALL=en_IN.UTF-8;export LANG=en_US.UTF-8;ansible-playbook -i inventory_Kuldip playbook.yml'
             }
         }
     }
