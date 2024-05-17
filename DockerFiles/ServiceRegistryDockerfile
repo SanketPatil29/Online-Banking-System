@@ -1,7 +1,7 @@
 # Use a smaller base image to run the application
 FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY ../JarFiles/ServiceRegistry.jar app.jar
+COPY JarFiles/ServiceRegistry.jar app.jar
 EXPOSE 8761
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
