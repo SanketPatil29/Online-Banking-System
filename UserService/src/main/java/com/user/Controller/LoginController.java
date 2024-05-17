@@ -13,41 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*")
-//public class LoginController {
-//
-//
-//    private UserService userService;
-//    private CustomerRepository customerRepository;
-//    @Autowired
-//    public LoginController(UserService userService, CustomerRepository customerRepository) {
-//        this.userService = userService;
-//        this.customerRepository = customerRepository;
-//    }
-//
-//    @PostMapping("/login")
-////    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
-//    public Long login(@RequestBody LoginDTO loginDTO) {
-//        String username = loginDTO.getUsername();
-//        String password = loginDTO.getPassword();
-//        String role = loginDTO.getRole();
-//
-//        boolean isAuthenticated = userService.authenticateUser(username, password, role);
-//        if (isAuthenticated) {
-////            customerRepository.findCustomerIdByUsername("username");
-////            return ResponseEntity.ok("Login successful");
-//            Long customerId = customerRepository.findCustomerIdByUsername(username);
-//            System.out.println("username  "+username    );
-//            System.out.println("Id :"+customerId);
-////            return ResponseEntity.ok(customerId);
-//            return customerId;
-//        } else {
-////            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username, password, or role");
-//        }
-//
-//        return 1L;
-//    }
-//}
+
 
 
 

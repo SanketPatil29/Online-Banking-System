@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/accounts")
+
 public class AccountController {
 
     private final AccountService accountService;
@@ -29,15 +29,35 @@ public class AccountController {
     }
 
     // TRANSFER FUNDS REST API
+//    @PostMapping("/transfer")
+//    public ResponseEntity<String> transferFunds(@RequestBody TransferRequestDto transferRequestDto) {
+//        try {
+//            accountService.transferFunds(transferRequestDto);
+//            return ResponseEntity.ok("Transfer successful");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Transfer failed: " + e.getMessage());
+//        }
+//    }
+
     @PostMapping("/transfer")
     public ResponseEntity<String> transferFunds(@RequestBody TransferRequestDto transferRequestDto) {
         try {
             accountService.transferFunds(transferRequestDto);
             return ResponseEntity.ok("Transfer successful");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Transfer failed: " + e.getMessage());
+        } catch (RuntimeException e) {
+            String errorMessage = e.getMessage();
+            if (errorMessage.equals("Invalid sender account")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid sender account");
+            } else if (errorMessage.equals("Invalid recipient account")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid recipient account");
+            } else if (errorMessage.equals("Insufficient balance in the sender account")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Insufficient balance in the sender account");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Transfer failed: " + errorMessage);
+            }
         }
     }
+
 
     // GET ALL ACCOUNTS
     @GetMapping("/all")
