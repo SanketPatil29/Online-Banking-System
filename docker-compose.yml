@@ -134,6 +134,4 @@ volumes:
   accountservice_db:
   notificationservice_db:
 
-environment:
-  DOCKER_NAMESPACE : kb1110
 
