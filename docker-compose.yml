@@ -133,5 +133,3 @@ volumes:
   userservice_db:
   accountservice_db:
   notificationservice_db:
-
-
