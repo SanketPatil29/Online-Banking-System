@@ -1,8 +1,5 @@
 - name: Use docker compose to run all containers
   hosts: all
-  become: yes
-  become_method: sudo
-  become_user: root
   tasks:
     - name: Start docker service
       service:
@@ -13,9 +10,16 @@
       copy:
         src: docker-compose.yml
         dest: ./
+        
+    - name: Copy Env file
+      copy:
+        src: docker_namespace.env
+        dest: ./
 
     - name: Run docker compose up command
+      become: true
       docker_compose:
+        env_file: ./docker_namespace.env
         project_src: ./
         state: present
         pull: yes
