@@ -1,8 +1,17 @@
-# eureka:
-#   instance:
-#     prefer-ip-address: true
-#   client:
-#     fetch-registry: true
-#     register-with-eureka: true
-#     service-url:
-#       default-zone: http://localhost:8761/eureka
+spring:
+  application:
+    name: NotificationService
+  datasource:
+    url: jdbc:mysql://localhost:3306/UserServiceDatabase?createDatabaseIfNotExist=true
+    username: root
+    password: Start@123
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+server:
+  port: 8084
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}
