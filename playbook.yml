@@ -16,6 +16,10 @@
         src: docker_namespace.env
         dest: ./
 
+    - name: Gather Docker facts
+        docker_info:
+
+
     - name: Run docker compose up command
       docker_compose:
         project_src: ./
