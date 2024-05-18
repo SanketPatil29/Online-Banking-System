@@ -1,2 +1,1 @@
-[ubuntu_utm]
 localhost ansible_user=kb ansible_ssh_pass=Welcome@123
