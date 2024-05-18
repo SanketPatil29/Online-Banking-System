@@ -95,7 +95,7 @@ pipeline {
                 sh "docker rmi ${DOCKERHUB_USER}/frontend"
             }
         }
-        */
+        
 
         stage('Run Docker Compose') {
             steps {
@@ -103,6 +103,13 @@ pipeline {
                 withEnv(['LC_ALL=en_IN.UTF-8', 'LANG=en_US.UTF-8', 'DOCKER_NAMESPACE=kb1110']) {
                     sh 'docker-compose up -d'
                 }
+            }
+        }
+        */
+        stage('Run ansible playbook'){
+            steps{
+                echo 'Running the ansible playbook yml file'
+                sh 'ansible-playbook -i inventory_Kuldip playbook.yml'
             }
         }
     }
