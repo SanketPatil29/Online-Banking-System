@@ -1,5 +1,6 @@
 - name: Use docker compose to run all containers
   hosts: all
+  become: yes
   tasks:
     - name: Start docker service
       service:
@@ -12,7 +13,6 @@
         dest: ./
 
     - name: Run docker compose up command
-      become: true
       docker_compose:
         project_src: ./
         state: present
