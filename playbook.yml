@@ -17,7 +17,8 @@
         dest: ./
 
     - name: Gather Docker facts
-      docker_info:
+      setup:
+        gather_subset: docker
 
     - name: Run docker compose up command
       docker_compose:
