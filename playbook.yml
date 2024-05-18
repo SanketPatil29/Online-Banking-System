@@ -32,11 +32,13 @@
         state: latest
 
     - name: Run Docker Compose up command
-      shell: |
-        export DOCKER_NAMESPACE=kb1110
-        docker-compose up -d --pull always
+      shell: docker-compose up -d --pull always
       args:
         chdir: "{{ playbook_dir }}"
+      environment:
+        DOCKER_NAMESPACE: kb1110
+        LC_ALL: en_IN.UTF-8
+        LANG: en_US.UTF-8
       register: compose_output
       ignore_errors: yes
 
