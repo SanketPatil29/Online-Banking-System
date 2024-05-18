@@ -16,10 +16,6 @@
         src: docker_namespace.env
         dest: ./
 
-    - name: Gather Docker facts
-      setup:
-        gather_subset: docker
-
     - name: Run docker compose up command
       docker_compose:
         project_src: ./
