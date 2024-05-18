@@ -93,15 +93,17 @@ pipeline {
                 sh "docker rmi ${DOCKERHUB_USER}/frontend"
             }
         }
-      
-        stage('Run ansible playbook') {
+
+        stage('Run Docker Compose') {
             steps {
-                echo 'Running the Ansible playbook yml file'
-                withEnv(['LC_ALL=en_IN.UTF-8', 'LANG=en_US.UTF-8']) {
-                    sh 'ansible-playbook -i inventory_Kuldip playbook.yml'
+                echo 'Running Docker Compose to start all containers'
+                withEnv(['LC_ALL=en_IN.UTF-8', 'LANG=en_US.UTF-8', 'DOCKER_NAMESPACE=kb1110']) {
+                    sh 'docker-compose up -d'
                 }
             }
         }
+      
+        
     }
     
 }
