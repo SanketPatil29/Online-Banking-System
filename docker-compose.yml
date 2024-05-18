@@ -2,7 +2,7 @@ version: '3'
 
 services:
   eurekaregistry:
-    image: ${DOCKER_NAMESPACE}/eurekaregistry
+    image: kb1110/eurekaregistry
     container_name: eurekaregistry
     ports:
       - "8761:8761"
@@ -10,7 +10,7 @@ services:
       - bank-network
 
   apigateway:
-    image: ${DOCKER_NAMESPACE}/apigateway
+    image: kb1110/apigateway
     container_name: apigateway
     ports:
       - "9093:9093"
@@ -22,7 +22,7 @@ services:
       - eurekaregistry
 
   userservice:
-    image: ${DOCKER_NAMESPACE}/userservice
+    image: kb1110/userservice
     container_name: userservice
     ports:
       - "8081:8081"
@@ -41,7 +41,7 @@ services:
       - /home:/logs
 
   accountservice:
-    image: ${DOCKER_NAMESPACE}/accountservice
+    image: kb1110/accountservice
     container_name: accountservice
     ports:
       - "8082:8082"
@@ -60,7 +60,7 @@ services:
       - /home:/logs
       
   notificationservice:
-    image: ${DOCKER_NAMESPACE}/notificationservice
+    image: kb1110/notificationservice
     container_name: notificationservice
     ports:
       - "8084:8084"
@@ -118,7 +118,7 @@ services:
       - bank-network
 
   frontend:
-    image: ${DOCKER_NAMESPACE}/frontend
+    image: kb1110/frontend
     container_name: frontend
     ports:
       - "3000:80"
