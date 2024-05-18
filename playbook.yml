@@ -22,4 +22,4 @@
         state: present
         pull: yes
       environment:
-        DOCKER_NAMESPACE: kb111
+        DOCKER_NAMESPACE: kb1110
