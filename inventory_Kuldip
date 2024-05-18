@@ -1,2 +1,2 @@
 [ubuntu_utm]
-localhost ansible_ssh_user=kb ansible_sudo_pass=Welcome@123  ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+localhost ansible_user=kb ansible_ssh_pass=Welcome@123
