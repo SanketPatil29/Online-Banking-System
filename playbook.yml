@@ -1,13 +1,35 @@
 ---
-- name: Run Docker Compose
-  hosts: localhost
-  connection: local
+- name: Use Docker Compose to run all containers
+  hosts: all
   tasks:
-    - name: Define Docker namespace environment variable
-      ansible.builtin.set_fact:
-        DOCKER_NAMESPACE: "your_namespace"
+    - name: Ensure Docker is running
+      service:
+        name: docker
+        state: started
+
+    - name: Verify Docker Compose installation
+      command: docker-compose --version
+      register: docker_compose_version
+      ignore_errors: yes
+
+    - name: Display Docker Compose version
+      debug:
+        var: docker_compose_version.stdout
+
+    - name: Copy Docker Compose file
+      copy:
+        src: docker-compose.yml
+        dest: ./docker-compose.yml
+
+    - name: Copy Env file
+      copy:
+        src: docker_namespace.env
+        dest: ./docker_namespace.env
+
+    - name: Install Docker SDK for Python
+      pip:
+        name: docker
+        state: latest
 
     - name: Run Docker Compose up command
-      command: docker-compose up -d
-      args:
-        chdir: "{{ playbook_dir }}"
+      shell: docker-compose up -d --pull always
