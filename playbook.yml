@@ -27,5 +27,6 @@
         project_src: ./
         state: present
         pull: yes
+        api_version: 1.30  # Specify the Docker API version
       environment:
         DOCKER_NAMESPACE: kb1110
