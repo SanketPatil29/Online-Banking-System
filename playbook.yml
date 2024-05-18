@@ -23,9 +23,8 @@
         state: latest
 
     - name: Run Docker Compose up command
-      community.docker.docker_compose:
-        project_src: ./
-        state: present
-        pull: yes
-      environment:
-        DOCKER_NAMESPACE: kb1110
+      shell: |
+        export DOCKER_NAMESPACE=kb1110
+        docker-compose up -d --pull always
+      args:
+        chdir: .
