@@ -93,12 +93,16 @@ pipeline {
                 sh "docker rmi ${DOCKERHUB_USER}/frontend"
             }
         }
-        stage('Run Ansible Playbook') {
+      
+        stage('Run ansible playbook') {
             steps {
-                echo 'Running Ansible Playbook'
-                sh 'export LC_ALL=en_IN.UTF-8;export LANG=en_US.UTF-8;ansible-playbook -i inventory_Kuldip playbook.yml'
+                echo 'Running the Ansible playbook yml file'
+                withEnv(['LC_ALL=en_IN.UTF-8', 'LANG=en_US.UTF-8']) {
+                    sh 'ansible-playbook -i inventory_Kuldip playbook.yml'
+                }
             }
         }
     }
+    
 }
 
