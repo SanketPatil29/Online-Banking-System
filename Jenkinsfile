@@ -106,10 +106,15 @@ pipeline {
             }
         }
         */
-        stage('Run ansible playbook'){
-            steps{
-                echo 'Running the ansible playbook yml file'
-                sh 'ansible-playbook -i inventory_Kuldip playbook.yml'
+        stage('Deploy with Ansible') {
+            steps {
+                script {
+                    // Install Ansible community.docker collection
+                    sh 'ansible-galaxy collection install community.docker'
+
+                    // Run the playbook
+                    sh 'ansible-playbook -i inventory_Kuldip playbook.yml'
+                }
             }
         }
     }
