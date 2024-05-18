@@ -83,7 +83,7 @@ pipeline {
                 sh "docker push ${DOCKERHUB_USER}/frontend"
             }
         }
-        */
+        
         stage('Clean Up Local Images') {
             steps {
                 echo 'Cleaning Up Local Docker Images'
@@ -95,6 +95,7 @@ pipeline {
                 sh "docker rmi ${DOCKERHUB_USER}/frontend"
             }
         }
+        */
 
         stage('Run Docker Compose') {
             steps {
