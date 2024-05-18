@@ -69,17 +69,7 @@ pipeline {
                 }
             }
         }
-        stage('Push Images to Docker Hub') {
-            steps {
-                echo 'Pushing Images to Docker Hub'
-                sh "docker push ${DOCKERHUB_USER}/eurekaregistry"
-                sh "docker push ${DOCKERHUB_USER}/apigateway"
-                sh "docker push ${DOCKERHUB_USER}/userservice"
-                sh "docker push ${DOCKERHUB_USER}/accountservice"
-                sh "docker push ${DOCKERHUB_USER}/notificationservice"
-                sh "docker push ${DOCKERHUB_USER}/frontend"
-            }
-        }
+        
         stage('Clean Up Local Images') {
             steps {
                 echo 'Cleaning Up Local Docker Images'
