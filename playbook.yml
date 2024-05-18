@@ -7,15 +7,24 @@
         name: docker
         state: started
 
+    - name: Verify Docker Compose installation
+      command: docker-compose --version
+      register: docker_compose_version
+      ignore_errors: yes
+
+    - name: Display Docker Compose version
+      debug:
+        var: docker_compose_version.stdout
+
     - name: Copy Docker Compose file
       copy:
         src: docker-compose.yml
-        dest: ./
+        dest: ./docker-compose.yml
 
     - name: Copy Env file
       copy:
         src: docker_namespace.env
-        dest: ./
+        dest: ./docker_namespace.env
 
     - name: Install Docker SDK for Python
       pip:
@@ -27,4 +36,14 @@
         export DOCKER_NAMESPACE=kb1110
         docker-compose up -d --pull always
       args:
-        chdir: .
+        chdir: "{{ playbook_dir }}"
+      register: compose_output
+      ignore_errors: yes
+
+    - name: Display Docker Compose command output
+      debug:
+        var: compose_output.stdout_lines
+
+    - name: Display Docker Compose command error output
+      debug:
+        var: compose_output.stderr_lines
