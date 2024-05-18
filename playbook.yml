@@ -3,6 +3,10 @@
   hosts: localhost
   connection: local
   tasks:
+    - name: Define Docker namespace environment variable
+      ansible.builtin.set_fact:
+        DOCKER_NAMESPACE: "your_namespace"
+
     - name: Run Docker Compose up command
       command: docker-compose up -d
       args:
