@@ -50,7 +50,7 @@ pipeline {
                 }
             }
         }
-        /*
+        
         stage('Build Docker Images') {
             steps {
                 echo 'Building Docker Images'
@@ -62,7 +62,7 @@ pipeline {
                 sh "docker build -t ${DOCKERHUB_USER}/frontend -f DockerFiles/FrontendDockerfile ."
             }
         }
-        */
+        
         stage('Login to Docker Hub') {
             steps {
                 echo 'Login to Docker Hub'
@@ -71,7 +71,7 @@ pipeline {
                 }
             }
         }
-        /*
+        
         stage('Push Images to Docker Hub') {
             steps {
                 echo 'Pushing Images to Docker Hub'
@@ -95,7 +95,7 @@ pipeline {
                 sh "docker rmi ${DOCKERHUB_USER}/frontend"
             }
         }
-        
+        /*
 
         stage('Run Docker Compose') {
             steps {
