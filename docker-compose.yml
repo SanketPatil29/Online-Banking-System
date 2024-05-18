@@ -121,7 +121,7 @@ services:
     image: ${DOCKER_NAMESPACE}/frontend
     container_name: frontend
     ports:
-      - "3000:3000"
+      - "3000:80"
     networks:
       - bank-network
 
