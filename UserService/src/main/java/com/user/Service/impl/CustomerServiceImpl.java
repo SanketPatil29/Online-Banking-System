@@ -32,38 +32,32 @@ public class CustomerServiceImpl implements CustomerService {
         this.userRepository = userRepository;
     }
 
-//    @Override
-//    public Customer add(UserInfoDto userInfoDto) {
-//        User user = UserMapper.mapToUser(userInfoDto);
-//        User user1 = userRepository.save(user);
-//        Customer customer= CustomerMapper.mapToCustomer(userInfoDto);
-//        customer.setUser(user1);
-//        Customer newCustomer = customerRepository.save(customer);
-//        return newCustomer;
-//
-//    }
-@Override
-public Customer add(UserInfoDto userInfoDto) {
-    User user = UserMapper.mapToUser(userInfoDto);
-    User savedUser = userRepository.save(user);
+    @Override
+    public Customer add(UserInfoDto userInfoDto) {
+        User user = UserMapper.mapToUser(userInfoDto);
+        User savedUser = userRepository.save(user);
 
-    Customer customer = CustomerMapper.mapToCustomer(userInfoDto);
-    customer.setUser(savedUser);
-    Customer savedCustomer = customerRepository.save(customer);
-    System.out.println("savedCustomer "+ savedCustomer);
+        Customer customer = CustomerMapper.mapToCustomer(userInfoDto);
+        customer.setUser(savedUser);
+        Customer savedCustomer = customerRepository.save(customer);
+        System.out.println("savedCustomer " + savedCustomer);
 
-    // Create an account for the newly added customer
-    Account account = new Account();
-    account.setCustomerId(savedCustomer.getCustomer_id());
-    account.setType(savedCustomer.getType()); // Set default account type or adjust as needed
+        // If savedCustomer is null, return immediately
+        if (savedCustomer == null) {
+            return null;
+        }
 
-    System.out.println(" before newAccount ");
-    Account newAccount = accountClient.createAccount(account);
-    System.out.println("newAccount  "+newAccount);
+        // Create an account for the newly added customer
+        Account account = new Account();
+        account.setCustomerId(savedCustomer.getCustomer_id());
+        account.setType(savedCustomer.getType()); // Set default account type or adjust as needed
 
-    return savedCustomer;
-}
+        System.out.println(" before newAccount ");
+        Account newAccount = accountClient.createAccount(account);
+        System.out.println("newAccount  " + newAccount);
 
+        return savedCustomer;
+    }
 
     @Override
     public List<Customer> getAllCustomers() {

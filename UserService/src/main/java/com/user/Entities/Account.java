@@ -1,6 +1,5 @@
 package com.user.Entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,8 +29,6 @@ public class Account {
     @Column(precision = 10, scale = 2) // Define precision and scale for the BigDecimal
     private BigDecimal balance;
 
-//    @JsonIgnoreProperties("account") // Add this annotation to prevent infinite loop
-//    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Transactions> transactions;
 
 }
