@@ -1,6 +1,4 @@
 package com.account.DTO;
-
-
 import lombok.Data;
 
 @Data
