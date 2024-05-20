@@ -1,0 +1,1 @@
+localhost ansible_user=sanket-patil ansible_ssh_pass=296226 ansible_become_pass=296226
