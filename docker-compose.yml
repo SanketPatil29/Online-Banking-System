@@ -2,7 +2,7 @@ version: '3'
 
 services:
   eurekaregistry:
-    image: kb1110/eurekaregistry
+    image: sanketp/eurekaregistry
     container_name: eurekaregistry
     ports:
       - "8761:8761"
@@ -10,7 +10,7 @@ services:
       - bank-network
 
   apigateway:
-    image: kb1110/apigateway
+    image: sanketp29/apigateway
     container_name: apigateway
     ports:
       - "9093:9093"
@@ -22,7 +22,7 @@ services:
       - eurekaregistry
 
   userservice:
-    image: kb1110/userservice
+    image: sanketp29/userservice
     container_name: userservice
     ports:
       - "8081:8081"
@@ -41,7 +41,7 @@ services:
       - /home:/logs
 
   accountservice:
-    image: kb1110/accountservice
+    image: sanketp29/accountservice
     container_name: accountservice
     ports:
       - "8082:8082"
@@ -60,7 +60,7 @@ services:
       - /home:/logs
       
   notificationservice:
-    image: kb1110/notificationservice
+    image: sanketp29/notificationservice
     container_name: notificationservice
     ports:
       - "8084:8084"
