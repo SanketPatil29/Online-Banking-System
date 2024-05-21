@@ -2,7 +2,8 @@ spring:
   application:
     name: UserService
   datasource:
-    url: jdbc:mysql://localhost:3306/UserServiceDatabase?createDatabaseIfNotExist=true
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/UserServiceDatabase?createDatabaseIfNotExist=true}
+
     username: root
     password: Start@123
   jpa:
