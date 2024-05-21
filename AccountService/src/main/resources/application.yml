@@ -3,9 +3,8 @@ spring:
     name: AccountService
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/AccountServiceDatabase?createDatabaseIfNotExist=true}
-
-    username: root
-    password: Start@123
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:Start@123}
   jpa:
     show-sql: true
     hibernate:
