@@ -149,8 +149,7 @@ services:
     container_name: kibana
     restart: always
     environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-      - ELASTICSEARCH_HOSTS='["http://elasticsearch:9200"]'
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     ports:
       - "5601:5601"
     networks:
@@ -164,9 +163,9 @@ services:
     restart: always
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:re
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
     environment:
-      - LS_JAVA_OPTS="-Xmx512m -Xms512m"
+      - LS_JAVA_OPTS=-Xmx512m -Xms512m
     ports:
       - "5001:5001/tcp"
       - "5001:5001/udp"
