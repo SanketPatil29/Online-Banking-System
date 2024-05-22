@@ -143,6 +143,7 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
       - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./home/kb/IIITB PROJECTS/SEM2/SPE MAJOR PROJECT/Online-Banking-System/elasticsearch:/var/log/elasticsearch
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.3.3
