@@ -4,6 +4,8 @@ package com.notification.mapper;
 import com.notification.DTO.NotificationDto;
 import com.notification.Entities.Notification;
 
+import java.time.LocalDateTime;
+
 public class NotificationMapper {
 
     public static Notification dtoToNotification(NotificationDto notificationDto) {
@@ -12,6 +14,7 @@ public class NotificationMapper {
         notification.setSubject(notificationDto.getSubject());
         notification.setMessage(notificationDto.getMessage());
         notification.setStatus("SENT"); // Set status to "SENT" as default
+        notification.setTimestamp(LocalDateTime.now()); // Set current timestamp
         // Set timestamp if needed
 
         return notification;
