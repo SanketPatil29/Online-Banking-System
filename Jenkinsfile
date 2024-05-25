@@ -12,7 +12,7 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/kb87-98/Online-Banking-System'
             }
         }
-        /*
+        
         stage('Maven Build RegistryService') {
             steps {
                 echo 'Building RegistryService'
