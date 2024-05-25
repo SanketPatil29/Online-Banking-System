@@ -12,6 +12,27 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/kb87-98/Online-Banking-System'
             }
         }
+        stage('Maven Test User Service'){
+            steps{
+                echo 'Building Job'
+                sh 'cd UserService; mvn test';
+                
+            }
+        }
+        stage('Maven Test Account Service'){
+            steps{
+                echo 'Building Job'
+                sh 'cd AccountService; mvn test';
+                
+            }
+        }
+        stage('Maven Test Notification Service'){
+            steps{
+                echo 'Building Job'
+                sh 'cd NotificationService; mvn test';
+                
+            }
+        }
         
         stage('Maven Build RegistryService') {
             steps {
