@@ -132,7 +132,7 @@ pipeline {
         stage('Run ansible playbook'){
             steps{
                 echo 'Running the ansible playbook yml file'
-                sh 'export LC_ALL=en_IN.UTF-8;export LANG=en_US.UTF-8;ansible-playbook -i inventory_Kuldip playbook.yml'
+                sh 'export LC_ALL=en_IN.UTF-8;export LANG=en_US.UTF-8;ansible-playbook -i inventory_Sanket playbook.yml'
             }
         }
     }
