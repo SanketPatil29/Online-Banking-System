@@ -3,7 +3,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('DockerHubCred')
         MYSQL_CREDENTIALS = credentials('MySqlCred')
         DOCKERHUB_USER = 'sanketp29'
-        EMAIL_TO = 'Kuldip.Bhatale@iiitb.ac.in'
+        EMAIL_TO = 'Sanket.Patil@iiitb.ac.in'
     }
     agent any
     stages {
@@ -13,7 +13,6 @@ pipeline {
             }
         }
         
-        /*
         stage('Maven Test User Service'){
             steps{
                 echo 'Building Job'
