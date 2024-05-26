@@ -1,1 +1,1 @@
-hosts:localhost ansible_user=sanket-patil ansible_ssh_pass=sanket-patil ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+localhost ansible_user=sanket-patil ansible_ssh_pass=sanket-patil ansible_become_pass=sanket-patil
