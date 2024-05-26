@@ -1,2 +1,4 @@
+# inventory.ini
+
 [local]
-localhost ansible_user=sanket-patil ansible_ssh_pass=296226 ansible_become_pass=296226
+localhost ansible_connection=local ansible_user=sanket-patil ansible_ssh_pass=296226 ansible_become_pass=296226
