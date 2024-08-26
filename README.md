@@ -3,6 +3,9 @@
 ## Overview
 This project is an Online Banking System built using a microservice architecture. It includes various services for user management, account management, and notifications, each of which operates independently and communicates with others via REST APIs. The project leverages modern DevOps practices, including containerization, continuous integration and continuous deployment (CI/CD), and automated deployment, to ensure a robust, scalable, and maintainable system.
 
+## Video Demo
+Video demo of the Online Banking System [link](https://drive.google.com/file/d/1voC-7WOnH4rpR1oCbalbXsVwA_Z_l3n5/view?usp=drive_link).
+
 ## Tech Stack
 
 ### Frontend
